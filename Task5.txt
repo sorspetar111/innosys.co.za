@@ -1,0 +1,55 @@
+ Pro-Rata. This is part of the fintech calculator. Here is the general equation. At least this is my undestending.
+
+public double CalculateProRata(double totalAmount, double workedPeriod, double totalPeriod)
+{
+    if (totalPeriod <= 0)
+    {
+        throw new ArgumentException("Total period must be greater than zero.");
+    }
+
+    // Calculate the pro-rata amount
+    double proRataAmount = (workedPeriod / totalPeriod) * totalAmount;
+
+    return proRataAmount;
+}
+
+
+
+CREATE FUNCTION dbo.CalculateProRata
+(
+    @totalAmount DECIMAL(18, 2),  -- The total amount (e.g., annual salary)
+    @workedPeriod DECIMAL(18, 2), -- The period worked or used (e.g., months worked)
+    @totalPeriod DECIMAL(18, 2)   -- The total period (e.g., total months in a year)
+)
+RETURNS DECIMAL(18, 2)
+AS
+BEGIN
+    -- Declare a variable to store the pro-rata amount
+    DECLARE @proRataAmount DECIMAL(18, 2);
+    
+    -- Check if total period is zero or negative to avoid division by zero
+    IF @totalPeriod <= 0
+    BEGIN
+        -- Set @proRataAmount to NULL or handle as needed
+        SET @proRataAmount = NULL;
+    END
+    ELSE
+    BEGIN
+        -- Calculate the pro-rata amount
+        SET @proRataAmount = (@workedPeriod / @totalPeriod) * @totalAmount;
+    END
+    
+    -- Return the pro-rata amount
+    RETURN @proRataAmount;
+END;
+
+
+
+Immutable?
+
+Imutable is read-only. For examble Immutable class is object can not change properties outside. Only passing one time from constructor.
+Only in constructor can set properties. The resones are:
+ - Data Integrity 
+ - Preventing Fraud
+
+ Transaction is other main point. Trasaction can be commit or rollback in regards if the entire block have problems or evrething is fine and trasaction can be commit.
